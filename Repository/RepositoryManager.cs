@@ -11,6 +11,9 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
+        private ITable1Repository _table1Repository;
+        private ITable2Repository _table2Repository;
+
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -31,6 +34,24 @@ namespace Repository
             if (_employeeRepository == null)
                     _employeeRepository = new EmployeeRepository(_repositoryContext);
                 return _employeeRepository;
+            }
+        }
+        public ITable1Repository Table1
+        {
+            get
+            {
+                if (_table1Repository == null)
+                    _table1Repository = new Table1Repository(_repositoryContext);
+                return _table1Repository;
+            }
+        }
+        public ITable2Repository Table2
+        {
+            get
+            {
+                if (_table2Repository == null)
+                    _table2Repository = new Table2Repository(_repositoryContext);
+                return _table2Repository;
             }
         }
         public void Save() => _repositoryContext.SaveChanges();

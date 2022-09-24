@@ -8,6 +8,8 @@ namespace Contracts
     {
         ICompanyRepository Company { get; }
         IEmployeeRepository Employee { get; }
+        ITable1Repository Table1 { get; }
+        ITable2Repository Table2 { get; }
         void Save();
     }
 }
