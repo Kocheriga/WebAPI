@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20220924180151_InitialData")]
-    partial class InitialData
+    [Migration("20221004185943_DatabaseCreation")]
+    partial class DatabaseCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,24 +120,22 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Table1", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnName("GroupID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("KlientID")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Fakultet")
+                    b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
-                    b.Property<string>("Kurator")
+                    b.Property<string>("KlientName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Starosta")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnName("Name")
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.HasKey("Id");
 
@@ -146,102 +144,160 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "101",
-                            Fakultet = "ФДП",
-                            Kurator = "Хохлова Наталья Николавена ",
-                            Starosta = "Гузнова Анастасия"
+                            Id = 1,
+                            City = "Москва",
+                            KlientName = "Дубинин"
                         },
                         new
                         {
-                            Id = "201",
-                            Fakultet = "ФДП",
-                            Kurator = "Бородулин Никита Дмитриевич",
-                            Starosta = "Шашкин Сергей Дмитриевич"
+                            Id = 2,
+                            City = "Брянск",
+                            KlientName = "Иванов"
                         },
                         new
                         {
-                            Id = "301",
-                            Fakultet = "ФДП",
-                            Kurator = "Шумкин Александр Николаевич",
-                            Starosta = "Юров Данила Алексеевич"
+                            Id = 3,
+                            City = "Самара",
+                            KlientName = "Александров"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            City = "Калуга",
+                            KlientName = "Кузнецов"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            City = "Рязань",
+                            KlientName = "Пушкин"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            City = "Ульяновск",
+                            KlientName = "Васькин"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            City = "Ярославль",
+                            KlientName = "Бурлаков"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            City = "Архангельск",
+                            KlientName = "Вертолеткин"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            City = "Вологда",
+                            KlientName = "Гаспарян"
                         });
                 });
 
             modelBuilder.Entity("Entities.Models.Table2", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnName("StudentID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("KlientID")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FamilyName")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KlientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Money")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tovar")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
-
-                    b.Property<string>("GroupID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Table1Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid?>("Table1sId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Table1Id");
-
-                    b.HasIndex("Table1sId");
+                    b.HasIndex("KlientId");
 
                     b.ToTable("Table2s");
 
                     b.HasData(
                         new
                         {
-                            Id = "101_1",
-                            FamilyName = "Фиксина",
-                            GroupID = "101",
-                            Name = "Кристина"
+                            Id = 1,
+                            Date = new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 7,
+                            Money = 84,
+                            Tovar = "Картофель"
                         },
                         new
                         {
-                            Id = "101_2",
-                            FamilyName = "Котова",
-                            GroupID = "101",
-                            Name = "Евгения"
+                            Id = 2,
+                            Date = new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 1,
+                            Money = 2520,
+                            Tovar = "Нектарин"
                         },
                         new
                         {
-                            Id = "201_1",
-                            FamilyName = "Кто-тов",
-                            GroupID = "201",
-                            Name = "Кто-то"
+                            Id = 3,
+                            Date = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 4,
+                            Money = 1620,
+                            Tovar = "Нектарин"
                         },
                         new
                         {
-                            Id = "201_2",
-                            FamilyName = "Зузин",
-                            GroupID = "201",
-                            Name = "Михаил"
+                            Id = 4,
+                            Date = new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 2,
+                            Money = 1786,
+                            Tovar = "Лук"
                         },
                         new
                         {
-                            Id = "301_1",
-                            FamilyName = "Крюкин",
-                            GroupID = "301",
-                            Name = "Евгений"
+                            Id = 5,
+                            Date = new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 6,
+                            Money = 14400,
+                            Tovar = "Персик"
                         },
                         new
                         {
-                            Id = "301_2",
-                            FamilyName = "Данилов",
-                            GroupID = "301",
-                            Name = "Алексей"
+                            Id = 6,
+                            Date = new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 9,
+                            Money = 57,
+                            Tovar = "Лук"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Date = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 3,
+                            Money = 3068,
+                            Tovar = "Морковь"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Date = new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 5,
+                            Money = 448,
+                            Tovar = "Картофель"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Date = new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            KlientId = 8,
+                            Money = 2590,
+                            Tovar = "Картофель"
                         });
                 });
 
@@ -256,13 +312,11 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Table2", b =>
                 {
-                    b.HasOne("Entities.Models.Table1", null)
-                        .WithMany("Table1s")
-                        .HasForeignKey("Table1Id");
-
-                    b.HasOne("Entities.Models.Company", "Table1s")
-                        .WithMany()
-                        .HasForeignKey("Table1sId");
+                    b.HasOne("Entities.Models.Table1", "Table1s")
+                        .WithMany("Table2s")
+                        .HasForeignKey("KlientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

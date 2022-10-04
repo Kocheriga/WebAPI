@@ -15,24 +15,57 @@ namespace Entities.Configuration
             (
             new Table1
             {
-                Id = "101",
-                Starosta = "Гузнова Анастасия",
-                Kurator = "Хохлова Наталья Николавена ",
-                Fakultet = "ФДП"
+                Id = 1,
+                KlientName = "Дубинин",
+                City = "Москва",
             },
             new Table1
             {
-                Id = "201",
-                Starosta = "Шашкин Сергей Дмитриевич",
-                Kurator = "Бородулин Никита Дмитриевич",
-                Fakultet = "ФДП"
+                Id = 2,
+                KlientName = "Иванов",
+                City = "Брянск",
             },
             new Table1
             {
-                Id = "301",
-                Starosta = "Юров Данила Алексеевич",
-                Kurator = "Шумкин Александр Николаевич",
-                Fakultet = "ФДП"
+                Id = 3,
+                KlientName = "Александров",
+                City = "Самара",
+            },
+            new Table1
+            {
+                Id = 4,
+                KlientName = "Кузнецов",
+                City = "Калуга",
+            },
+            new Table1
+            {
+                Id = 5,
+                KlientName = "Пушкин",
+                City = "Рязань",
+            },
+            new Table1
+            {
+                Id = 6,
+                KlientName = "Васькин",
+                City = "Ульяновск",
+            },
+            new Table1
+            {
+                Id = 7,
+                KlientName = "Бурлаков",
+                City = "Ярославль",
+            },
+            new Table1
+            {
+                Id = 8,
+                KlientName = "Вертолеткин",
+                City = "Архангельск",
+            },
+            new Table1
+            {
+                Id = 9,
+                KlientName = "Гаспарян",
+                City = "Вологда",
             }
             );
         }

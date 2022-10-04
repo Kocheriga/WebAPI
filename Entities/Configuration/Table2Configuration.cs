@@ -15,45 +15,75 @@ namespace Entities.Configuration
             (
             new Table2
             {
-                Id = "101_1",
-                Name = "Кристина",
-                FamilyName = "Фиксина",
-                GroupID = "101"
+                Id = 1,
+                Date = DateTime.Parse("05.09.2016"),
+                Tovar="Картофель",
+                Money=84,
+                KlientsId = 7,
             },
             new Table2
             {
-                Id = "101_2",
-                Name = "Евгения",
-                FamilyName = "Котова",
-                GroupID = "101"
+                Id = 2,
+                Date = DateTime.Parse("04.09.2016"),
+                Tovar = "Нектарин",
+                Money =2520,
+                KlientsId = 1,
             },
             new Table2
             {
-                Id = "201_1",
-                Name = "Кто-то",
-                FamilyName = "Кто-тов",
-                GroupID = "201"
+                Id = 3,
+                Date = DateTime.Parse("01.09.2016"),
+                Tovar = "Нектарин",
+                Money =1620,
+                KlientsId = 4,
             },
             new Table2
             {
-                Id = "201_2",
-                Name = "Михаил",
-                FamilyName = "Зузин",
-                GroupID = "201"
+                Id = 4,
+                Date = DateTime.Parse("02.09.2016"),
+                Tovar = "Лук",
+                Money =1786,
+                KlientsId = 2,
             },
             new Table2
             {
-                Id = "301_1",
-                Name = "Евгений",
-                FamilyName = "Крюкин",
-                GroupID = "301"
+                Id = 5,
+                Date = DateTime.Parse("02.09.2016"),
+                Tovar = "Персик",
+                Money =14400,
+                KlientsId = 6,
             },
             new Table2
             {
-                Id = "301_2",
-                Name = "Алексей",
-                FamilyName = "Данилов",
-                GroupID = "301"
+                Id = 6,
+                Date = DateTime.Parse("03.09.2016"),
+                Tovar = "Лук",
+                Money =57,
+                KlientsId = 9,
+            },
+            new Table2
+            {
+                Id = 7,
+                Date = DateTime.Parse("01.09.2016"),
+                Tovar = "Морковь",
+                Money =3068,
+                KlientsId = 3,
+            },
+            new Table2
+            {
+                Id = 8,
+                Date = DateTime.Parse("05.09.2016"),
+                Tovar = "Картофель",
+                Money =448,
+                KlientsId = 5,
+            },
+            new Table2
+            {
+                Id = 9,
+                Date = DateTime.Parse("04.09.2016"),
+                Tovar = "Картофель",
+                Money =2590,
+                KlientsId = 8,
             }
             );
         }

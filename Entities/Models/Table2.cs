@@ -8,16 +8,15 @@ namespace Entities.Models
 {
     public class Table2
     {
-        [Column("StudentID")]
-        public string Id { get; set; }
+        [Column("ProdajaID")]
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
         [Required(ErrorMessage = "Employee name is a required field.")]
         [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
-        public string FamilyName { get; set; }
-        [Required(ErrorMessage = "Employee name is a required field.")]
-        [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
-        public string Name { get; set; }
-        [ForeignKey(nameof(Table1))]
-        public string GroupID { get; set; }
-        public Company Table1s { get; set; }
+        public string Tovar { get; set; }
+        public int Money { get; set; }
+        public int KlientsId { get; set; }
+        [ForeignKey("Id")]
+        public Table1 Table1s { get; set; }
     }
 }
