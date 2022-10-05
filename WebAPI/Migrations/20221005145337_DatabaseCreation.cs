@@ -60,19 +60,18 @@ namespace WebAPI.Migrations
                 name: "Table2s",
                 columns: table => new
                 {
-                    KlientID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProdajaID = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Tovar = table.Column<string>(maxLength: 30, nullable: false),
                     Money = table.Column<int>(nullable: false),
-                    KlientId = table.Column<int>(nullable: false)
+                    KlientsId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Table2s", x => x.KlientID);
+                    table.PrimaryKey("PK_Table2s", x => x.ProdajaID);
                     table.ForeignKey(
-                        name: "FK_Table2s_Table1s_KlientId",
-                        column: x => x.KlientId,
+                        name: "FK_Table2s_Table1s_ProdajaID",
+                        column: x => x.ProdajaID,
                         principalTable: "Table1s",
                         principalColumn: "KlientID",
                         onDelete: ReferentialAction.Cascade);
@@ -115,29 +114,24 @@ namespace WebAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Table2s",
-                columns: new[] { "KlientID", "Date", "KlientId", "Money", "Tovar" },
+                columns: new[] { "ProdajaID", "Date", "KlientsId", "Money", "Tovar" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2520, "Нектарин" },
-                    { 4, new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1786, "Лук" },
-                    { 7, new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 3068, "Морковь" },
-                    { 3, new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 1620, "Нектарин" },
-                    { 8, new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 448, "Картофель" },
-                    { 5, new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 14400, "Персик" },
                     { 1, new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 7, 84, "Картофель" },
-                    { 9, new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 8, 2590, "Картофель" },
-                    { 6, new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 9, 57, "Лук" }
+                    { 2, new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2520, "Нектарин" },
+                    { 3, new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 1620, "Нектарин" },
+                    { 4, new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1786, "Лук" },
+                    { 5, new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 14400, "Персик" },
+                    { 6, new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 9, 57, "Лук" },
+                    { 7, new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 3068, "Морковь" },
+                    { 8, new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 448, "Картофель" },
+                    { 9, new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 8, 2590, "Картофель" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CompanyId",
                 table: "Employees",
                 column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Table2s_KlientId",
-                table: "Table2s",
-                column: "KlientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

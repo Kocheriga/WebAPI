@@ -199,15 +199,13 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("Entities.Models.Table2", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("KlientID")
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("ProdajaID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("KlientId")
+                    b.Property<int>("KlientsId")
                         .HasColumnType("int");
 
                     b.Property<int>("Money")
@@ -220,8 +218,6 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("KlientId");
-
                     b.ToTable("Table2s");
 
                     b.HasData(
@@ -229,7 +225,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 7,
+                            KlientsId = 7,
                             Money = 84,
                             Tovar = "Картофель"
                         },
@@ -237,7 +233,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 2,
                             Date = new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 1,
+                            KlientsId = 1,
                             Money = 2520,
                             Tovar = "Нектарин"
                         },
@@ -245,7 +241,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 3,
                             Date = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 4,
+                            KlientsId = 4,
                             Money = 1620,
                             Tovar = "Нектарин"
                         },
@@ -253,7 +249,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 4,
                             Date = new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 2,
+                            KlientsId = 2,
                             Money = 1786,
                             Tovar = "Лук"
                         },
@@ -261,7 +257,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 5,
                             Date = new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 6,
+                            KlientsId = 6,
                             Money = 14400,
                             Tovar = "Персик"
                         },
@@ -269,7 +265,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 6,
                             Date = new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 9,
+                            KlientsId = 9,
                             Money = 57,
                             Tovar = "Лук"
                         },
@@ -277,7 +273,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 7,
                             Date = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 3,
+                            KlientsId = 3,
                             Money = 3068,
                             Tovar = "Морковь"
                         },
@@ -285,7 +281,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 8,
                             Date = new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 5,
+                            KlientsId = 5,
                             Money = 448,
                             Tovar = "Картофель"
                         },
@@ -293,7 +289,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 9,
                             Date = new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientId = 8,
+                            KlientsId = 8,
                             Money = 2590,
                             Tovar = "Картофель"
                         });
@@ -312,7 +308,7 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("Entities.Models.Table1", "Table1s")
                         .WithMany("Table2s")
-                        .HasForeignKey("KlientId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
