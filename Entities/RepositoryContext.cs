@@ -18,13 +18,13 @@ namespace Entities
         {
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
-            modelBuilder.ApplyConfiguration(new Table1Configuration());
-            modelBuilder.ApplyConfiguration(new Table2Configuration());
+            modelBuilder.ApplyConfiguration(new KlientConfiguration());
+            modelBuilder.ApplyConfiguration(new ProdajaConfiguration());
         }
 
         public DbSet<Company> Companies { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Table1> Table1s { get; set; }
-        public DbSet<Table2> Table2s { get; set; }
+        public DbSet<Klient> Table1s { get; set; }
+        public DbSet<Prodaja> Table2s { get; set; }
     }
 }

@@ -6,18 +6,17 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class Table1
+    public class Prodaja
     {
-        [Key]
-        [Column("KlientID")]
+        [Column("ProdajaID")]
         public int Id { get; set; }
+        public DateTime Date { get; set; }
         [Required(ErrorMessage = "Employee name is a required field.")]
         [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
-        [Column("Name")]
-        public string KlientName { get; set; }
-        [Required(ErrorMessage = "Employee name is a required field.")]
-        [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
-        public string City { get; set; }
-        public ICollection<Table2> Table2s { get; set; }
+        public string Tovar { get; set; }
+        public int Money { get; set; }
+        public int KlientsId { get; set; }
+        [ForeignKey("Id")]
+        public Klient Table1s { get; set; }
     }
 }

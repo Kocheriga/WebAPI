@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Repository
 {
-    public class Table1Repository : RepositoryBase<Table1>, ITable1Repository
+     public class ProdajaRepository : RepositoryBase<Prodaja>, Contracts.IProdajaRepository 
     {
-        public Table1Repository(RepositoryContext repositoryContext)
+        public ProdajaRepository(RepositoryContext repositoryContext)
             : base(repositoryContext)
-        {
+        { 
         }
     }
 }
