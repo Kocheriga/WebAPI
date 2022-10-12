@@ -7,13 +7,13 @@ using System.Text;
 
 namespace Entities.Configuration
 {
-    class Table2Configuration : IEntityTypeConfiguration<Table2>
+    class ProdajaConfiguration : IEntityTypeConfiguration<Prodaja>
     {
-        public void Configure(EntityTypeBuilder<Table2> builder)
+        public void Configure(EntityTypeBuilder<Prodaja> builder)
         {
             builder.HasData
             (
-            new Table2
+            new Prodaja
             {
                 Id = 1,
                 Date = DateTime.Parse("05.09.2016"),
@@ -21,7 +21,7 @@ namespace Entities.Configuration
                 Money=84,
                 KlientsId = 7,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 2,
                 Date = DateTime.Parse("04.09.2016"),
@@ -29,7 +29,7 @@ namespace Entities.Configuration
                 Money =2520,
                 KlientsId = 1,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 3,
                 Date = DateTime.Parse("01.09.2016"),
@@ -37,7 +37,7 @@ namespace Entities.Configuration
                 Money =1620,
                 KlientsId = 4,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 4,
                 Date = DateTime.Parse("02.09.2016"),
@@ -45,7 +45,7 @@ namespace Entities.Configuration
                 Money =1786,
                 KlientsId = 2,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 5,
                 Date = DateTime.Parse("02.09.2016"),
@@ -53,7 +53,7 @@ namespace Entities.Configuration
                 Money =14400,
                 KlientsId = 6,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 6,
                 Date = DateTime.Parse("03.09.2016"),
@@ -61,7 +61,7 @@ namespace Entities.Configuration
                 Money =57,
                 KlientsId = 9,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 7,
                 Date = DateTime.Parse("01.09.2016"),
@@ -69,7 +69,7 @@ namespace Entities.Configuration
                 Money =3068,
                 KlientsId = 3,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 8,
                 Date = DateTime.Parse("05.09.2016"),
@@ -77,7 +77,7 @@ namespace Entities.Configuration
                 Money =448,
                 KlientsId = 5,
             },
-            new Table2
+            new Prodaja
             {
                 Id = 9,
                 Date = DateTime.Parse("04.09.2016"),
