@@ -11,8 +11,8 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
-        private Contracts.IKlientRepository _table1Repository;
-        private Contracts.IProdajaRepository _table2Repository;
+        private IKlientRepository _table1Repository;
+        private IProdajaRepository _table2Repository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {

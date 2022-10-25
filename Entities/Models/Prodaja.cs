@@ -11,8 +11,6 @@ namespace Entities.Models
         [Column("ProdajaID")]
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        [Required(ErrorMessage = "Employee name is a required field.")]
-        [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
         public string Tovar { get; set; }
         public int Money { get; set; }
         public int KlientsId { get; set; }
