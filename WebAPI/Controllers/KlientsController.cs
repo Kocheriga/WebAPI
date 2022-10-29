@@ -17,18 +17,20 @@ namespace WebAPI.Controllers
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
+        private readonly IMapper _mapper;
         public KlientsController(IRepositoryManager repository, ILoggerManager
-       logger)
+       logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetKlients()
         {
             try
             {
-                var klients = _repository.Table1.GetAllKlients(trackChanges:false);
+                var klients = _repository.Table1.GetAllKlients(trackChanges: false);
                 var klientsDto = klients.Select(c => new KlientDto
                 {
                     Id = c.Id,
@@ -40,7 +42,22 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the { nameof(GetKlients)} action { ex} ");
-            return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetKlient(int Id)
+        {
+            var klient = _repository.Table1.GetKlient(Id, trackChanges: false);
+            if (klient == null)
+            {
+                _logger.LogInfo($"Company with id: {Id} doesn't exist in the database.");
+                return NotFound();
+            }
+            else 
+            {
+                var klientDto = _mapper.Map<KlientDto>(klient);
+                return Ok(klientDto);
             }
         }
     }

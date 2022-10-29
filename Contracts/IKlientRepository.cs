@@ -8,5 +8,6 @@ namespace Contracts
     public interface IKlientRepository
     {
         IEnumerable<Klient> GetAllKlients(bool trackChanges);
+        Klient GetKlient(int KlientsId, bool trackChanges);
     }
 }

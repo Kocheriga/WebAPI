@@ -19,5 +19,8 @@ namespace Repository
             FindAll(trackChanges)
             .OrderBy(k => k.KlientName)
             .ToList();
+
+        public Klient GetKlient(int KlientsId, bool trackChanges) => FindByCondition(c
+            => c.Id.Equals(KlientsId), trackChanges).SingleOrDefault();
     }
 }
