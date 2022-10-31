@@ -20,6 +20,8 @@ namespace WebAPI
             CreateMap<Prodaja, ProdajaDto>();
             CreateMap<CompanyForCreationDto, Company>();
             CreateMap<EmployeeForCreationDto, Employee>();
+            CreateMap<KlientForCreationDto, Klient>();
+            CreateMap<ProdajaForCreationDto, Prodaja>();
         }
     }
 }

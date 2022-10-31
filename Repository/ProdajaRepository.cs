@@ -18,5 +18,11 @@ namespace Repository
         public Prodaja GetProdaja(int KlientsId, int Id, bool trackChanges) =>
 FindByCondition(e => e.KlientsId.Equals(KlientsId) && e.Id.Equals(Id),
 trackChanges).SingleOrDefault();
+
+        public void CreateProdajaForKlient(int KlientId, Prodaja prodaja) 
+        {
+            prodaja.KlientsId = KlientId;
+            Create(prodaja);
+        }
     }
 }

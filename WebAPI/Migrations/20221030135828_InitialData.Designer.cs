@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221005145337_DatabaseCreation")]
-    partial class DatabaseCreation
+    [Migration("20221030135828_InitialData")]
+    partial class InitialData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,7 +118,7 @@ namespace WebAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.Table1", b =>
+            modelBuilder.Entity("Entities.Models.Klient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -198,7 +198,7 @@ namespace WebAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.Table2", b =>
+            modelBuilder.Entity("Entities.Models.Prodaja", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnName("ProdajaID")
@@ -214,9 +214,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Tovar")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -306,9 +304,9 @@ namespace WebAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.Table2", b =>
+            modelBuilder.Entity("Entities.Models.Prodaja", b =>
                 {
-                    b.HasOne("Entities.Models.Table1", "Table1s")
+                    b.HasOne("Entities.Models.Klient", "Table1s")
                         .WithMany("Table2s")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)

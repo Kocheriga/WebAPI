@@ -62,7 +62,7 @@ namespace WebAPI.Migrations
                 {
                     ProdajaID = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    Tovar = table.Column<string>(maxLength: 30, nullable: false),
+                    Tovar = table.Column<string>(nullable: true),
                     Money = table.Column<int>(nullable: false),
                     KlientsId = table.Column<int>(nullable: false)
                 },

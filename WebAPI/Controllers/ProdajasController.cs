@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -55,6 +56,30 @@ namespace WebAPI.Controllers
             }
             var prodaja = _mapper.Map<ProdajaDto>(prodajaDb);
             return Ok(prodaja);
+        }
+        [HttpPost]
+        public IActionResult CreateProdajaForKlient(int KlientId, [FromBody] ProdajaForCreationDto prodaja)
+        {
+            if (prodaja == null)
+            {
+                _logger.LogError("ProdajaForCreationDto object sent from client is null.");
+                return BadRequest("ProdajaForCreationDto object is null");
+            }
+            var klient = _repository.Table1.GetKlient(KlientId, trackChanges: false);
+            if (prodaja == null)
+            {
+                _logger.LogInfo($"Klient with id: {KlientId} doesn't exist in the database.");
+            return NotFound();
+            }
+            var prodajaEntity = _mapper.Map<Prodaja>(prodaja);
+            _repository.Table2.CreateProdajaForKlient(KlientId, prodajaEntity);
+            _repository.Save();
+            var prodajaToReturn = _mapper.Map<ProdajaDto>(prodajaEntity);
+            return CreatedAtRoute("GetProdajaForCompany", new
+            {
+                KlientId,
+                id = prodajaToReturn.Id
+            }, prodajaToReturn);
         }
     }
 }

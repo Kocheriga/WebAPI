@@ -8,7 +8,6 @@ namespace Entities.Models
 {
     public class Klient
     {
-        [Key]
         [Column("KlientID")]
         public int Id { get; set; }
         [Required(ErrorMessage = "Employee name is a required field.")]

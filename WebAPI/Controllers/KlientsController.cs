@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name ="KlientById")]
         public IActionResult GetKlient(int Id)
         {
             var klient = _repository.Table1.GetKlient(Id, trackChanges: false);
@@ -59,6 +59,21 @@ namespace WebAPI.Controllers
                 var klientDto = _mapper.Map<KlientDto>(klient);
                 return Ok(klientDto);
             }
+        }
+        [HttpPost]
+        public IActionResult CreateKlient([FromBody] KlientForCreationDto klient) 
+        {
+            if (klient == null)
+            {
+                _logger.LogError("KlientForCreationDto object sent from client is null.");
+            return BadRequest("KlientForCreationDto object is null");
+            }
+            var klientEntity = _mapper.Map<Klient>(klient);
+            _repository.Table1.CreateKlient(klientEntity);
+            _repository.Save();
+            var klientToReturn = _mapper.Map<KlientDto>(klientEntity);
+            return CreatedAtRoute("KlientById", new { id =klientToReturn.Id },
+            klientToReturn);
         }
     }
 }
