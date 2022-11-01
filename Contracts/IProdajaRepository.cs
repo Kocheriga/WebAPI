@@ -7,8 +7,8 @@ namespace Contracts
 {
     public interface IProdajaRepository
     {
-        IEnumerable<Prodaja> GetProdajas(int KlientsId, bool trackChanges);
-        Prodaja GetProdaja(int KlientsId, int Id, bool trackChanges);
-        void CreateProdajaForKlient(int KlientId, Prodaja prodaja);
+        IEnumerable<Prodaja> GetProdajas(Guid klientsId, bool trackChanges);
+        Prodaja GetProdaja(Guid klientsId, Guid Id, bool trackChanges);
+        void CreateProdajaForKlient(Guid KlientsId, Prodaja prodaja);
     }
 }

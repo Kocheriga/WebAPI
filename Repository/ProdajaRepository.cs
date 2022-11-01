@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,16 +13,17 @@ namespace Repository
             : base(repositoryContext)
         { 
         }
-        public IEnumerable<Prodaja> GetProdajas(int KlientsId, bool trackChanges) =>
-            FindByCondition(e => e.Id.Equals(KlientsId), trackChanges)
+        public IEnumerable<Prodaja> GetProdajas(Guid klientsId, bool trackChanges) =>
+            FindByCondition(e => e.KlientsId.Equals(klientsId), trackChanges)
             .OrderBy(e => e.Tovar);
-        public Prodaja GetProdaja(int KlientsId, int Id, bool trackChanges) =>
-FindByCondition(e => e.KlientsId.Equals(KlientsId) && e.Id.Equals(Id),
-trackChanges).SingleOrDefault();
 
-        public void CreateProdajaForKlient(int KlientId, Prodaja prodaja) 
+        public Prodaja GetProdaja(Guid klientsId, Guid Id, bool trackChanges) =>
+            FindByCondition(e => e.KlientsId.Equals(klientsId) && e.Id.Equals(Id),
+            trackChanges).SingleOrDefault();
+
+        public void CreateProdajaForKlient(Guid klientsId, Prodaja prodaja) 
         {
-            prodaja.KlientsId = KlientId;
+            prodaja.KlientsId = klientsId;
             Create(prodaja);
         }
     }

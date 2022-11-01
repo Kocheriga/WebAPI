@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221030135828_InitialData")]
+    [Migration("20221101173432_InitialData")]
     partial class InitialData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,22 +120,16 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Klient", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("KlientID")
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KlientName")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -144,71 +138,42 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             City = "Москва",
                             KlientName = "Дубинин"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("c3d4c053-49b6-410c-bc78-2d54a9991870"),
                             City = "Брянск",
                             KlientName = "Иванов"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("c2d4c053-49b6-410c-bc78-2d54a9991870"),
                             City = "Самара",
                             KlientName = "Александров"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = new Guid("c1d4c053-49b6-410c-bc78-2d54a9991870"),
                             City = "Калуга",
                             KlientName = "Кузнецов"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            City = "Рязань",
-                            KlientName = "Пушкин"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            City = "Ульяновск",
-                            KlientName = "Васькин"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            City = "Ярославль",
-                            KlientName = "Бурлаков"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            City = "Архангельск",
-                            KlientName = "Вертолеткин"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            City = "Вологда",
-                            KlientName = "Гаспарян"
                         });
                 });
 
             modelBuilder.Entity("Entities.Models.Prodaja", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("ProdajaID")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("KlientsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("KlientsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Money")
                         .HasColumnType("int");
@@ -218,80 +183,50 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("KlientsId");
+
                     b.ToTable("Table2s");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Date = new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 7,
+                            KlientsId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             Money = 84,
                             Tovar = "Картофель"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("022ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Date = new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 1,
+                            KlientsId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             Money = 2520,
                             Tovar = "Нектарин"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("023ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Date = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 4,
+                            KlientsId = new Guid("c3d4c053-49b6-410c-bc78-2d54a9991870"),
                             Money = 1620,
                             Tovar = "Нектарин"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = new Guid("024ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Date = new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 2,
+                            KlientsId = new Guid("c2d4c053-49b6-410c-bc78-2d54a9991870"),
                             Money = 1786,
                             Tovar = "Лук"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = new Guid("025ca3c1-0deb-4afd-ae94-2159a8479811"),
                             Date = new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 6,
+                            KlientsId = new Guid("c1d4c053-49b6-410c-bc78-2d54a9991870"),
                             Money = 14400,
                             Tovar = "Персик"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Date = new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 9,
-                            Money = 57,
-                            Tovar = "Лук"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Date = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 3,
-                            Money = 3068,
-                            Tovar = "Морковь"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Date = new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 5,
-                            Money = 448,
-                            Tovar = "Картофель"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Date = new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KlientsId = 8,
-                            Money = 2590,
-                            Tovar = "Картофель"
                         });
                 });
 
@@ -306,9 +241,9 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Prodaja", b =>
                 {
-                    b.HasOne("Entities.Models.Klient", "Table1s")
-                        .WithMany("Table2s")
-                        .HasForeignKey("Id")
+                    b.HasOne("Entities.Models.Klient", "Klient")
+                        .WithMany("Prodajas")
+                        .HasForeignKey("KlientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

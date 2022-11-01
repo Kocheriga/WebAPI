@@ -8,5 +8,6 @@ namespace Entities.DataTransferObjects
     {
         public string KlientName { get; set; }
         public string City { get; set; }
+        public IEnumerable<ProdajaForCreationDto> Prodajas { get; set; }
     }
 }

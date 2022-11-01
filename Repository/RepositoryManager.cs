@@ -11,8 +11,8 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
-        private IKlientRepository _table1Repository;
-        private IProdajaRepository _table2Repository;
+        private IKlientRepository _klientRepository;
+        private IProdajaRepository _prodajaRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -36,22 +36,22 @@ namespace Repository
                 return _employeeRepository;
             }
         }
-        public Contracts.IKlientRepository Table1
+        public Contracts.IKlientRepository Klient
         {
             get
             {
-                if (_table1Repository == null)
-                    _table1Repository = new KlientRepository(_repositoryContext);
-                return _table1Repository;
+                if (_klientRepository == null)
+                    _klientRepository = new KlientRepository(_repositoryContext);
+                return _klientRepository;
             }
         }
-        public Contracts.IProdajaRepository Table2
+        public Contracts.IProdajaRepository Prodaja
         {
             get
             {
-                if (_table2Repository == null)
-                    _table2Repository = new ProdajaRepository(_repositoryContext);
-                return _table2Repository;
+                if (_prodajaRepository == null)
+                    _prodajaRepository = new ProdajaRepository(_repositoryContext);
+                return _prodajaRepository;
             }
         }
         public void Save() => _repositoryContext.SaveChanges();

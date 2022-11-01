@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var klients = _repository.Table1.GetAllKlients(trackChanges: false);
+                var klients = _repository.Klient.GetAllKlients(trackChanges: false);
                 var klientsDto = klients.Select(c => new KlientDto
                 {
                     Id = c.Id,
@@ -46,9 +46,9 @@ namespace WebAPI.Controllers
             }
         }
         [HttpGet("{id}", Name ="KlientById")]
-        public IActionResult GetKlient(int Id)
+        public IActionResult GetKlient(Guid Id)
         {
-            var klient = _repository.Table1.GetKlient(Id, trackChanges: false);
+            var klient = _repository.Klient.GetKlient(Id, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {Id} doesn't exist in the database.");
@@ -60,6 +60,24 @@ namespace WebAPI.Controllers
                 return Ok(klientDto);
             }
         }
+        [HttpGet("collection/({ids})", Name = "KlientCollection")]
+        public IActionResult GetKlientCollection(IEnumerable<Guid> ids)
+        {
+            if (ids == null)
+            {
+                _logger.LogError("Parameter ids is null");
+                return BadRequest("Parameter ids is null");
+            }
+            var klientEntities = _repository.Klient.GetByIds(ids, trackChanges: false);
+            if (ids.Count() != klientEntities.Count())
+            {
+                _logger.LogError("Some ids are not valid in a collection");
+                return NotFound();
+            }
+            var companiesToReturn =
+           _mapper.Map<IEnumerable<CompanyDto>>(klientEntities);
+            return Ok(companiesToReturn);
+        }
         [HttpPost]
         public IActionResult CreateKlient([FromBody] KlientForCreationDto klient) 
         {
@@ -69,11 +87,31 @@ namespace WebAPI.Controllers
             return BadRequest("KlientForCreationDto object is null");
             }
             var klientEntity = _mapper.Map<Klient>(klient);
-            _repository.Table1.CreateKlient(klientEntity);
+            _repository.Klient.CreateKlient(klientEntity);
             _repository.Save();
             var klientToReturn = _mapper.Map<KlientDto>(klientEntity);
             return CreatedAtRoute("KlientById", new { id =klientToReturn.Id },
             klientToReturn);
+        }
+        [HttpPost("collection")]
+        public IActionResult CreateKlientCollection([FromBody] IEnumerable<KlientForCreationDto> klientCollection)
+        {
+            if (klientCollection == null)
+            {
+                _logger.LogError("Company collection sent from client is null.");
+                return BadRequest("Company collection is null");
+            }
+            var klientEntities = _mapper.Map<IEnumerable<Klient>>(klientCollection);
+            foreach (var klient in klientEntities)
+            {
+                _repository.Klient.CreateKlient(klient);
+            }
+            _repository.Save();
+            var klientCollectionToReturn =
+            _mapper.Map<IEnumerable<KlientDto>>(klientEntities);
+            var ids = string.Join(",", klientCollectionToReturn.Select(c => c.Id));
+            return CreatedAtRoute("CompanyCollection", new { ids },
+            klientCollectionToReturn);
         }
     }
 }

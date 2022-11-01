@@ -15,57 +15,27 @@ namespace Entities.Configuration
             (
             new Klient
             {
-                Id = 1,
+                Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                 KlientName = "Дубинин",
                 City = "Москва",
             },
             new Klient
             {
-                Id = 2,
+                Id = new Guid("c3d4c053-49b6-410c-bc78-2d54a9991870"),
                 KlientName = "Иванов",
                 City = "Брянск",
             },
             new Klient
             {
-                Id = 3,
+                Id = new Guid("c2d4c053-49b6-410c-bc78-2d54a9991870"),
                 KlientName = "Александров",
                 City = "Самара",
             },
             new Klient
             {
-                Id = 4,
+                Id = new Guid("c1d4c053-49b6-410c-bc78-2d54a9991870"),
                 KlientName = "Кузнецов",
                 City = "Калуга",
-            },
-            new Klient
-            {
-                Id = 5,
-                KlientName = "Пушкин",
-                City = "Рязань",
-            },
-            new Klient
-            {
-                Id = 6,
-                KlientName = "Васькин",
-                City = "Ульяновск",
-            },
-            new Klient
-            {
-                Id = 7,
-                KlientName = "Бурлаков",
-                City = "Ярославль",
-            },
-            new Klient
-            {
-                Id = 8,
-                KlientName = "Вертолеткин",
-                City = "Архангельск",
-            },
-            new Klient
-            {
-                Id = 9,
-                KlientName = "Гаспарян",
-                City = "Вологда",
             }
             );
         }

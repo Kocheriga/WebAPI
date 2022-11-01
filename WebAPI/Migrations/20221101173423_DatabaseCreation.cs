@@ -25,10 +25,9 @@ namespace WebAPI.Migrations
                 name: "Table1s",
                 columns: table => new
                 {
-                    KlientID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 30, nullable: false),
-                    City = table.Column<string>(maxLength: 30, nullable: false)
+                    KlientID = table.Column<Guid>(nullable: false),
+                    KlientName = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,18 +59,18 @@ namespace WebAPI.Migrations
                 name: "Table2s",
                 columns: table => new
                 {
-                    ProdajaID = table.Column<int>(nullable: false),
+                    ProdajaID = table.Column<Guid>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Tovar = table.Column<string>(nullable: true),
                     Money = table.Column<int>(nullable: false),
-                    KlientsId = table.Column<int>(nullable: false)
+                    KlientsId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Table2s", x => x.ProdajaID);
                     table.ForeignKey(
-                        name: "FK_Table2s_Table1s_ProdajaID",
-                        column: x => x.ProdajaID,
+                        name: "FK_Table2s_Table1s_KlientsId",
+                        column: x => x.KlientsId,
                         principalTable: "Table1s",
                         principalColumn: "KlientID",
                         onDelete: ReferentialAction.Cascade);
@@ -88,18 +87,13 @@ namespace WebAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Table1s",
-                columns: new[] { "KlientID", "City", "Name" },
+                columns: new[] { "KlientID", "City", "KlientName" },
                 values: new object[,]
                 {
-                    { 1, "Москва", "Дубинин" },
-                    { 2, "Брянск", "Иванов" },
-                    { 3, "Самара", "Александров" },
-                    { 4, "Калуга", "Кузнецов" },
-                    { 5, "Рязань", "Пушкин" },
-                    { 6, "Ульяновск", "Васькин" },
-                    { 7, "Ярославль", "Бурлаков" },
-                    { 8, "Архангельск", "Вертолеткин" },
-                    { 9, "Вологда", "Гаспарян" }
+                    { new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), "Москва", "Дубинин" },
+                    { new Guid("c3d4c053-49b6-410c-bc78-2d54a9991870"), "Брянск", "Иванов" },
+                    { new Guid("c2d4c053-49b6-410c-bc78-2d54a9991870"), "Самара", "Александров" },
+                    { new Guid("c1d4c053-49b6-410c-bc78-2d54a9991870"), "Калуга", "Кузнецов" }
                 });
 
             migrationBuilder.InsertData(
@@ -117,21 +111,22 @@ namespace WebAPI.Migrations
                 columns: new[] { "ProdajaID", "Date", "KlientsId", "Money", "Tovar" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 7, 84, "Картофель" },
-                    { 2, new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2520, "Нектарин" },
-                    { 3, new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 1620, "Нектарин" },
-                    { 4, new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1786, "Лук" },
-                    { 5, new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 14400, "Персик" },
-                    { 6, new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 9, 57, "Лук" },
-                    { 7, new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 3068, "Морковь" },
-                    { 8, new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 448, "Картофель" },
-                    { 9, new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 8, 2590, "Картофель" }
+                    { new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"), new DateTime(2016, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 84, "Картофель" },
+                    { new Guid("022ca3c1-0deb-4afd-ae94-2159a8479811"), new DateTime(2016, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 2520, "Нектарин" },
+                    { new Guid("023ca3c1-0deb-4afd-ae94-2159a8479811"), new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c3d4c053-49b6-410c-bc78-2d54a9991870"), 1620, "Нектарин" },
+                    { new Guid("024ca3c1-0deb-4afd-ae94-2159a8479811"), new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c2d4c053-49b6-410c-bc78-2d54a9991870"), 1786, "Лук" },
+                    { new Guid("025ca3c1-0deb-4afd-ae94-2159a8479811"), new DateTime(2016, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("c1d4c053-49b6-410c-bc78-2d54a9991870"), 14400, "Персик" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CompanyId",
                 table: "Employees",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Table2s_KlientsId",
+                table: "Table2s",
+                column: "KlientsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
