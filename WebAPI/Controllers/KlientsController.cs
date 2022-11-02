@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.ModelBinders;
 
 namespace WebAPI.Controllers
 {
@@ -61,7 +62,8 @@ namespace WebAPI.Controllers
             }
         }
         [HttpGet("collection/({ids})", Name = "KlientCollection")]
-        public IActionResult GetKlientCollection(IEnumerable<Guid> ids)
+        public IActionResult GetKlientCollection([ModelBinder(BinderType =
+            typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
             {
@@ -74,9 +76,9 @@ namespace WebAPI.Controllers
                 _logger.LogError("Some ids are not valid in a collection");
                 return NotFound();
             }
-            var companiesToReturn =
-           _mapper.Map<IEnumerable<CompanyDto>>(klientEntities);
-            return Ok(companiesToReturn);
+            var klientsToReturn =
+           _mapper.Map<IEnumerable<KlientDto>>(klientEntities);
+            return Ok(klientsToReturn);
         }
         [HttpPost]
         public IActionResult CreateKlient([FromBody] KlientForCreationDto klient) 
