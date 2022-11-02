@@ -22,6 +22,9 @@ namespace WebAPI
             CreateMap<EmployeeForCreationDto, Employee>();
             CreateMap<KlientForCreationDto, Klient>();
             CreateMap<ProdajaForCreationDto, Prodaja>();
+            CreateMap<EmployeeForUpdateDto, Employee>();
+            CreateMap<CompanyForUpdateDto, Company>();
+            CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
         }
     }
 }
