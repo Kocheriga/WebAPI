@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        [HttpGet("{id}", Name ="KlientById")]
+        [HttpGet("{id}", Name = "KlientById")]
         public IActionResult GetKlient(Guid Id)
         {
             var klient = _repository.Klient.GetKlient(Id, trackChanges: false);
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
                 _logger.LogInfo($"Company with id: {Id} doesn't exist in the database.");
                 return NotFound();
             }
-            else 
+            else
             {
                 var klientDto = _mapper.Map<KlientDto>(klient);
                 return Ok(klientDto);
@@ -81,18 +81,18 @@ namespace WebAPI.Controllers
             return Ok(klientsToReturn);
         }
         [HttpPost]
-        public IActionResult CreateKlient([FromBody] KlientForCreationDto klient) 
+        public IActionResult CreateKlient([FromBody] KlientForCreationDto klient)
         {
             if (klient == null)
             {
                 _logger.LogError("KlientForCreationDto object sent from client is null.");
-            return BadRequest("KlientForCreationDto object is null");
+                return BadRequest("KlientForCreationDto object is null");
             }
             var klientEntity = _mapper.Map<Klient>(klient);
             _repository.Klient.CreateKlient(klientEntity);
             _repository.Save();
             var klientToReturn = _mapper.Map<KlientDto>(klientEntity);
-            return CreatedAtRoute("KlientById", new { id =klientToReturn.Id },
+            return CreatedAtRoute("KlientById", new { id = klientToReturn.Id },
             klientToReturn);
         }
         [HttpPost("collection")]
@@ -114,6 +114,37 @@ namespace WebAPI.Controllers
             var ids = string.Join(",", klientCollectionToReturn.Select(c => c.Id));
             return CreatedAtRoute("CompanyCollection", new { ids },
             klientCollectionToReturn);
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteKlient(Guid id)
+        {
+            var klient = _repository.Klient.GetKlient(id, trackChanges: false);
+            if (klient == null)
+            {
+                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _repository.Klient.DeleteKlient(klient);
+            _repository.Save();
+            return NoContent();
+        }
+        [HttpPut("{id}")]
+        public IActionResult UpdateKlient(Guid id, [FromBody] KlientForUpdateDto klient)
+        {
+            if (klient == null)
+            {
+                _logger.LogError("CompanyForUpdateDto object sent from client is null.");
+                return BadRequest("CompanyForUpdateDto object is null");
+            }
+            var klientEntity = _repository.Klient.GetKlient(id, trackChanges: true);
+            if (klientEntity == null)
+            {
+                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _mapper.Map(klient, klientEntity);
+            _repository.Save();
+            return NoContent();
         }
     }
 }

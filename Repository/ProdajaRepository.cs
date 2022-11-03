@@ -26,5 +26,9 @@ namespace Repository
             prodaja.KlientsId = klientsId;
             Create(prodaja);
         }
+        public void DeleteProdaja(Prodaja prodaja)
+        {
+            Delete(prodaja);
+        }
     }
 }

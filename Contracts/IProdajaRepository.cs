@@ -10,5 +10,6 @@ namespace Contracts
         IEnumerable<Prodaja> GetProdajas(Guid klientsId, bool trackChanges);
         Prodaja GetProdaja(Guid klientsId, Guid Id, bool trackChanges);
         void CreateProdajaForKlient(Guid KlientsId, Prodaja prodaja);
+        void DeleteProdaja(Prodaja prodaja);
     }
 }
