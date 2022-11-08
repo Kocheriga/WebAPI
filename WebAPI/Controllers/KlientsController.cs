@@ -27,11 +27,11 @@ namespace WebAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetKlients()
+        public async Task<IActionResult> GetKlients()
         {
             try
             {
-                var klients = _repository.Klient.GetAllKlients(trackChanges: false);
+                var klients = await _repository.Klient.GetAllKlientsAsync(trackChanges: false);
                 var klientsDto = klients.Select(c => new KlientDto
                 {
                     Id = c.Id,
@@ -47,9 +47,9 @@ namespace WebAPI.Controllers
             }
         }
         [HttpGet("{id}", Name = "KlientById")]
-        public IActionResult GetKlient(Guid Id)
+        public async Task<IActionResult> GetKlient(Guid Id)
         {
-            var klient = _repository.Klient.GetKlient(Id, trackChanges: false);
+            var klient =await _repository.Klient.GetKlientAsync(Id, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {Id} doesn't exist in the database.");
@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
             }
         }
         [HttpGet("collection/({ids})", Name = "KlientCollection")]
-        public IActionResult GetKlientCollection([ModelBinder(BinderType =
+        public async Task<IActionResult> GetKlientCollection([ModelBinder(BinderType =
             typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
                 _logger.LogError("Parameter ids is null");
                 return BadRequest("Parameter ids is null");
             }
-            var klientEntities = _repository.Klient.GetByIds(ids, trackChanges: false);
+            var klientEntities = await _repository.Klient.GetByIdsAsync(ids, trackChanges: false);
             if (ids.Count() != klientEntities.Count())
             {
                 _logger.LogError("Some ids are not valid in a collection");
@@ -81,7 +81,7 @@ namespace WebAPI.Controllers
             return Ok(klientsToReturn);
         }
         [HttpPost]
-        public IActionResult CreateKlient([FromBody] KlientForCreationDto klient)
+        public async Task<IActionResult> CreateKlient([FromBody] KlientForCreationDto klient)
         {
             if (klient == null)
             {
@@ -90,13 +90,13 @@ namespace WebAPI.Controllers
             }
             var klientEntity = _mapper.Map<Klient>(klient);
             _repository.Klient.CreateKlient(klientEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             var klientToReturn = _mapper.Map<KlientDto>(klientEntity);
             return CreatedAtRoute("KlientById", new { id = klientToReturn.Id },
             klientToReturn);
         }
         [HttpPost("collection")]
-        public IActionResult CreateKlientCollection([FromBody] IEnumerable<KlientForCreationDto> klientCollection)
+        public async Task<IActionResult> CreateKlientCollection([FromBody] IEnumerable<KlientForCreationDto> klientCollection)
         {
             if (klientCollection == null)
             {
@@ -108,7 +108,7 @@ namespace WebAPI.Controllers
             {
                 _repository.Klient.CreateKlient(klient);
             }
-            _repository.Save();
+            await _repository.SaveAsync();
             var klientCollectionToReturn =
             _mapper.Map<IEnumerable<KlientDto>>(klientEntities);
             var ids = string.Join(",", klientCollectionToReturn.Select(c => c.Id));
@@ -116,34 +116,34 @@ namespace WebAPI.Controllers
             klientCollectionToReturn);
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteKlient(Guid id)
+        public async Task<IActionResult> DeleteKlient(Guid id)
         {
-            var klient = _repository.Klient.GetKlient(id, trackChanges: false);
+            var klient = await _repository.Klient.GetKlientAsync(id, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             _repository.Klient.DeleteKlient(klient);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateKlient(Guid id, [FromBody] KlientForUpdateDto klient)
+        public async Task<IActionResult> UpdateKlient(Guid id, [FromBody] KlientForUpdateDto klient)
         {
             if (klient == null)
             {
                 _logger.LogError("CompanyForUpdateDto object sent from client is null.");
                 return BadRequest("CompanyForUpdateDto object is null");
             }
-            var klientEntity = _repository.Klient.GetKlient(id, trackChanges: true);
+            var klientEntity = await _repository.Klient.GetKlientAsync(id, trackChanges: true);
             if (klientEntity == null)
             {
                 _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             _mapper.Map(klient, klientEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
     }

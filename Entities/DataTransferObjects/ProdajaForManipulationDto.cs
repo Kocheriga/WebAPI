@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entities.DataTransferObjects
 {
-    public class ProdajaForUpdateDto : ProdajaForManipulationDto
+    public abstract class ProdajaForManipulationDto
     {
         public DateTime Date { get; set; }
         [Required(ErrorMessage = "Prodaja name is a required field.")]

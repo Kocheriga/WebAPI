@@ -2,15 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Contracts
 {
     public interface IKlientRepository
     {
-        IEnumerable<Klient> GetAllKlients(bool trackChanges);
-        Klient GetKlient(Guid KlientsId, bool trackChanges);
+        Task<IEnumerable<Klient>> GetAllKlientsAsync(bool trackChanges);
+        Task<Klient> GetKlientAsync(Guid KlientsId, bool trackChanges);
         void CreateKlient(Klient klient);
-        IEnumerable<Klient> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
+        Task<IEnumerable<Klient>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
         void DeleteKlient(Klient klient);
     }
 }

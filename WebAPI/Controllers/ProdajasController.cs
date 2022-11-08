@@ -26,28 +26,28 @@ namespace WebAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetProdajasForKlient(Guid klientId)
+        public async Task<IActionResult> GetProdajasForKlient(Guid klientId)
         {
-            var klient = _repository.Klient.GetKlient(klientId, trackChanges: false);
+            var klient = await _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in the database.");
                 return NotFound();
             }
-            var prodajasFromDb = _repository.Prodaja.GetProdajas(klientId, trackChanges: false);
+            var prodajasFromDb =await _repository.Prodaja.GetProdajasAsync(klientId, trackChanges: false);
             var prodajasDto = _mapper.Map<IEnumerable<ProdajaDto>>(prodajasFromDb);
             return Ok(prodajasFromDb);
         }
         [HttpGet("{id}", Name = "GetProdajaForKlient")]
-        public IActionResult GetProdajaForKlient(Guid klientId, Guid Id)
+        public async Task<IActionResult> GetProdajaForKlient(Guid klientId, Guid Id)
         {
-            var klient = _repository.Klient.GetKlient(klientId, trackChanges: false);
+            var klient =await  _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in the database.");
                 return NotFound();
             }
-            var prodajaDb = _repository.Prodaja.GetProdaja(klientId, Id, trackChanges: false);
+            var prodajaDb = await _repository.Prodaja.GetProdajaAsync(klientId, Id, trackChanges: false);
             if (prodajaDb == null)
             {
                 _logger.LogInfo($"Employee with id: {Id} doesn't exist in th database.");
@@ -57,14 +57,19 @@ namespace WebAPI.Controllers
             return Ok(prodaja);
         }
         [HttpPost]
-        public IActionResult CreateProdajaForKlient(Guid klientId, [FromBody] ProdajaForCreationDto prodaja)
+        public async Task<IActionResult> CreateProdajaForKlient(Guid klientId, [FromBody] ProdajaForCreationDto prodaja)
         {
             if (prodaja == null)
             {
                 _logger.LogError("EmployeeForCreationDto object sent from client is null.");
                 return BadRequest("EmployeeForCreationDto object is null");
             }
-            var klient = _repository.Klient.GetKlient(klientId, trackChanges: false);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the ЗкщвфофForCreationDto object");
+                return UnprocessableEntity(ModelState);
+            }
+            var klient = await _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in th database.");
@@ -72,7 +77,7 @@ namespace WebAPI.Controllers
             }
             var prodajaEntity = _mapper.Map<Prodaja>(prodaja);
             _repository.Prodaja.CreateProdajaForKlient(klientId, prodajaEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             var prodajaToReturn = _mapper.Map<ProdajaDto>(prodajaEntity);
             return CreatedAtRoute("GetProdajaForKlient", new
             {
@@ -81,15 +86,15 @@ namespace WebAPI.Controllers
             }, prodajaToReturn);
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteProdajaForKlient(Guid klientId, Guid id)
+        public async Task<IActionResult> DeleteProdajaForKlient(Guid klientId, Guid id)
         {
-            var klient = _repository.Klient.GetKlient(klientId, trackChanges: false);
+            var klient = await _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in the database.");
                 return NotFound();
             }
-            var prodajaForKlient = _repository.Prodaja.GetProdaja(klientId, id,
+            var prodajaForKlient = await _repository.Prodaja.GetProdajaAsync(klientId, id,
             trackChanges: false);
             if (prodajaForKlient == null)
             {
@@ -97,11 +102,11 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
             _repository.Prodaja.DeleteProdaja(prodajaForKlient);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateProdajaForKlient(Guid klientId, Guid id, [FromBody]
+        public async Task<IActionResult> UpdateProdajaForKlient(Guid klientId, Guid id, [FromBody]
 ProdajaForUpdateDto prodaja)
         {
             if (prodaja == null)
@@ -109,24 +114,29 @@ ProdajaForUpdateDto prodaja)
                 _logger.LogError("EmployeeForUpdateDto object sent from client is null.");
             return BadRequest("EmployeeForUpdateDto object is null");
             }
-            var klient = _repository.Klient.GetKlient(klientId, trackChanges: false);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the EmployeeForUpdateDto object");
+                return UnprocessableEntity(ModelState);
+            }
+            var klient =await _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in the database.");
             return NotFound();
             }
-            var prodajaEntity = _repository.Prodaja.GetProdaja(klientId, id, trackChanges: true);
+            var prodajaEntity = await _repository.Prodaja.GetProdajaAsync(klientId, id, trackChanges: true);
             if (prodajaEntity == null)
             {
                 _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
             return NotFound();
             }
             _mapper.Map(prodaja, prodajaEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
         [HttpPatch("{id}")]
-        public IActionResult PartiallyUpdateProdajaForKlient(Guid klientId, Guid id,
+        public async Task<IActionResult> PartiallyUpdateProdajaForKlient(Guid klientId, Guid id,
  [FromBody] JsonPatchDocument<ProdajaForUpdateDto> patchDoc)
         {
             if (patchDoc == null)
@@ -134,22 +144,28 @@ ProdajaForUpdateDto prodaja)
                 _logger.LogError("patchDoc object sent from client is null.");
                 return BadRequest("patchDoc object is null");
             }
-            var klient = _repository.Klient.GetKlient(klientId, trackChanges: false);
+            var klient = await _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
             {
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in the database.");
             return NotFound();
             }
-            var prodajaEntity = _repository.Prodaja.GetProdaja( klientId, id, trackChanges:  true);
+            var prodajaEntity = await _repository.Prodaja.GetProdajaAsync( klientId, id, trackChanges:  true);
             if (prodajaEntity == null)
             {
                 _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
             return NotFound();
             }
             var prodajaToPatch = _mapper.Map<ProdajaForUpdateDto>(prodajaEntity);
-            patchDoc.ApplyTo(prodajaToPatch);
+            patchDoc.ApplyTo(prodajaToPatch, ModelState);
+            TryValidateModel(prodajaToPatch);
+            if(!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the patch document");
+                return UnprocessableEntity(ModelState);
+            }
             _mapper.Map(prodajaToPatch, prodajaEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
     }
