@@ -19,9 +19,8 @@ namespace Repository
         public async Task<PagedList<Prodaja>> GetProdajasAsync(Guid klientsId,
  ProdajaParameters prodajaParameters, bool trackChanges)
         {
-            var prodajas = await FindByCondition(e => e.KlientsId.Equals(klientsId) &&
-            (e.Money >= prodajaParameters.MinCost && e.Money <= prodajaParameters.MaxCost),
-            trackChanges)
+            var prodajas = await FindByCondition(e => e.KlientsId.Equals(klientsId), 
+           trackChanges).FilterProdajas()
             .OrderBy(e => e.Tovar)
             .ToListAsync();
             return PagedList<Prodaja>
