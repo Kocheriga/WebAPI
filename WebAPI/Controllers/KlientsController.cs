@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.ActionFilters;
 using WebAPI.ModelBinders;
 
 namespace WebAPI.Controllers
@@ -81,13 +82,9 @@ namespace WebAPI.Controllers
             return Ok(klientsToReturn);
         }
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateKlient([FromBody] KlientForCreationDto klient)
         {
-            if (klient == null)
-            {
-                _logger.LogError("KlientForCreationDto object sent from client is null.");
-                return BadRequest("KlientForCreationDto object is null");
-            }
             var klientEntity = _mapper.Map<Klient>(klient);
             _repository.Klient.CreateKlient(klientEntity);
             await _repository.SaveAsync();
@@ -116,32 +113,20 @@ namespace WebAPI.Controllers
             klientCollectionToReturn);
         }
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(ValidateKlientExistsAttribute))]
         public async Task<IActionResult> DeleteKlient(Guid id)
         {
-            var klient = await _repository.Klient.GetKlientAsync(id, trackChanges: false);
-            if (klient == null)
-            {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var klient = HttpContext.Items["klient"] as Klient;
             _repository.Klient.DeleteKlient(klient);
             await _repository.SaveAsync();
             return NoContent();
         }
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidateKlientExistsAttribute))]
         public async Task<IActionResult> UpdateKlient(Guid id, [FromBody] KlientForUpdateDto klient)
         {
-            if (klient == null)
-            {
-                _logger.LogError("CompanyForUpdateDto object sent from client is null.");
-                return BadRequest("CompanyForUpdateDto object is null");
-            }
-            var klientEntity = await _repository.Klient.GetKlientAsync(id, trackChanges: true);
-            if (klientEntity == null)
-            {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var klientEntity = HttpContext.Items["klient"] as Klient;
             _mapper.Map(klient, klientEntity);
             await _repository.SaveAsync();
             return NoContent();

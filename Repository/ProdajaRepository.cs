@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,21 @@ namespace Repository
     {
         public ProdajaRepository(RepositoryContext repositoryContext)
             : base(repositoryContext)
-        { 
+        {
         }
-        public async Task<IEnumerable<Prodaja>> GetProdajasAsync(Guid klientsId, bool trackChanges) =>
-            await FindByCondition(e => e.KlientsId.Equals(klientsId), trackChanges)
+        public async Task<PagedList<Prodaja>> GetProdajasAsync(Guid klientsId,
+ ProdajaParameters prodajaParameters, bool trackChanges)
+        {
+            var prodajas = await FindByCondition(e => e.KlientsId.Equals(klientsId) &&
+            (e.Money >= prodajaParameters.MinCost && e.Money <= prodajaParameters.MaxCost),
+            trackChanges)
             .OrderBy(e => e.Tovar)
             .ToListAsync();
+            return PagedList<Prodaja>
+            .ToPagedList(prodajas, prodajaParameters.PageNumber,
+            prodajaParameters.PageSize);
+        }
+
 
         public async Task<Prodaja> GetProdajaAsync(Guid klientsId, Guid Id, bool trackChanges) =>
             await FindByCondition(e => e.KlientsId.Equals(klientsId) && e.Id.Equals(Id),

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.ActionFilters;
 using WebAPI.Extensions;
 
 namespace WebAPI
@@ -47,6 +48,12 @@ namespace WebAPI
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateCompanyExistsAttribute>();
+            services.AddScoped<ValidateKlientExistsAttribute>();
+            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
+            services.AddScoped<ValidateProdajaForKlientExistsAttribute>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
