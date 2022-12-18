@@ -25,6 +25,7 @@ namespace Repository.Extensions.Utility
             }
             var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
             return orderQuery;
+
         }
     }
 }
