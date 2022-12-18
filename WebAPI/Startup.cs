@@ -1,3 +1,5 @@
+using Contracts;
+using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
+using Repository.DataShaping;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,6 +56,8 @@ namespace WebAPI
             services.AddScoped<ValidateKlientExistsAttribute>();
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
             services.AddScoped<ValidateProdajaForKlientExistsAttribute>();
+            services.AddScoped<IDataShaper<ProdajaDto>, DataShaper<ProdajaDto>>();
+
 
         }
 

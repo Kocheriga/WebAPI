@@ -3,6 +3,7 @@ using Entities;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,9 @@ namespace Repository
             var prodajas = await FindByCondition(e => e.KlientsId.Equals(klientsId) &&
             (e.Money >= prodajaParameters.MinCost && e.Money <= prodajaParameters.MaxCost),
             trackChanges)
-            .OrderBy(e => e.Tovar)
+                .FilterProdajas(prodajaParameters.MinCost, prodajaParameters.MaxCost)
+                .Search(prodajaParameters.SearchTerm)
+            .Sort(prodajaParameters.OrderBy)
             .ToListAsync();
             return PagedList<Prodaja>
             .ToPagedList(prodajas, prodajaParameters.PageNumber,

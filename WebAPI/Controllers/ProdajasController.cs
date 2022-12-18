@@ -22,17 +22,19 @@ namespace WebAPI.Controllers
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public ProdajasController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        private readonly IDataShaper<ProdajaDto> _dataShaper;
+        public ProdajasController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper, IDataShaper<ProdajaDto> dataShaper)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _dataShaper = dataShaper;
         }
         [HttpGet]
         public async Task<IActionResult> GetProdajasForKlient(Guid klientId,
  [FromQuery] ProdajaParameters prodajaParameters)
         {
-            if(!prodajaParameters.ValidCostRange)
+            if (!prodajaParameters.ValidCostRange)
                 return BadRequest("Max cost can't be less than min cost.");
             var klient = await _repository.Klient.GetKlientAsync(klientId, trackChanges: false);
             if (klient == null)
@@ -40,10 +42,10 @@ namespace WebAPI.Controllers
                 _logger.LogInfo($"Company with id: {klientId} doesn't exist in the database.");
                 return NotFound();
             }
-            var prodajasFromDb =await _repository.Prodaja.GetProdajasAsync(klientId, prodajaParameters,trackChanges: false);
+            var prodajasFromDb = await _repository.Prodaja.GetProdajasAsync(klientId, prodajaParameters, trackChanges: false);
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(prodajasFromDb.MetaData));
             var prodajasDto = _mapper.Map<IEnumerable<ProdajaDto>>(prodajasFromDb);
-            return Ok(prodajasDto);
+            return Ok(_dataShaper.ShapeData(prodajasDto, prodajaParameters.Fields));
         }
 
         [HttpGet("{id}", Name = "GetProdajaForKlient")]
