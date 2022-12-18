@@ -13,6 +13,7 @@ using WebAPI.ModelBinders;
 
 namespace WebAPI.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/klients")]
     [ApiController]
     public class KlientsController : ControllerBase
@@ -130,6 +131,12 @@ namespace WebAPI.Controllers
             _mapper.Map(klient, klientEntity);
             await _repository.SaveAsync();
             return NoContent();
+        }
+        [HttpOptions]
+        public IActionResult GetKlientsOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
         }
     }
 }

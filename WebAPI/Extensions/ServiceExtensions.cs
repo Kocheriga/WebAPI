@@ -10,6 +10,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Entities;
 using Repository;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using WebAPI.Controllers;
 
 namespace WebAPI.Extensions
 {
@@ -24,6 +27,18 @@ namespace WebAPI.Extensions
             .AllowAnyHeader());
         })
            ;
+        public static void ConfigureVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(opt =>
+            {
+                opt.ReportApiVersions = true;
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                opt.Conventions.Controller<KlientsController>().HasApiVersion(new ApiVersion(1,0));
+                opt.Conventions.Controller<KlientsV2Controller>().HasDeprecatedApiVersion(new ApiVersion(2, 0));
+            });
+        }
         public static void ConfigureIISIntegration(this IServiceCollection services) =>
         services.Configure<IISOptions>(options =>
         {

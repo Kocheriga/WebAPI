@@ -31,6 +31,7 @@ namespace WebAPI.Controllers
             _dataShaper = dataShaper;
         }
         [HttpGet]
+        [HttpHead]
         public async Task<IActionResult> GetProdajasForKlient(Guid klientId,
  [FromQuery] ProdajaParameters prodajaParameters)
         {
