@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    [ApiVersion("2.0", Deprecated = true)]
     [Route("api/klients")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v2Klient")]
     public class KlientsV2Controller : ControllerBase
     {
         private readonly IRepositoryManager _repository;

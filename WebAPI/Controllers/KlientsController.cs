@@ -14,9 +14,9 @@ using WebAPI.ModelBinders;
 
 namespace WebAPI.Controllers
 {
-    [ApiVersion("1.0")]
     [Route("api/klients")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v1Klient")]
     public class KlientsController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -29,6 +29,15 @@ namespace WebAPI.Controllers
             _logger = logger;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Получает список всех компаний
+        /// </summary>
+        /// <returns> Список компаний</returns>.
+        ///  /// <response code="200"> Запрос выполнен успешно</response>.
+        /// <response code="400"> Если элемент равен null</response>.
+        /// <response code="401"> Не авторизован</response>.
+        /// <response code="403"> Доступ запрещён</response>.
+        /// <response code="422"> Если модель недействительна</response>.
         [HttpGet(Name = "GetKlients"), Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetKlients()
         {

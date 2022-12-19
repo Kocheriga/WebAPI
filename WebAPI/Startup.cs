@@ -60,10 +60,12 @@ namespace WebAPI
             services.AddScoped<ValidateProdajaForKlientExistsAttribute>();
             services.AddScoped<IDataShaper<ProdajaDto>, DataShaper<ProdajaDto>>();
             services.ConfigureVersioning();
+            services.ConfigureSwagger();
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            
 
         }
 
@@ -86,11 +88,17 @@ namespace WebAPI
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1Klient/swagger.json", "Klient API v1");
+                s.SwaggerEndpoint("/swagger/v2Klient/swagger.json", "Klient API v2");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }
