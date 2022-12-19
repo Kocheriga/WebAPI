@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
+using Repository;
 using Repository.DataShaping;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,10 @@ namespace WebAPI
             services.AddScoped<ValidateProdajaForKlientExistsAttribute>();
             services.AddScoped<IDataShaper<ProdajaDto>, DataShaper<ProdajaDto>>();
             services.ConfigureVersioning();
-
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
         }
 
@@ -80,6 +84,7 @@ namespace WebAPI
                 ForwardedHeaders = ForwardedHeaders.All
             });
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

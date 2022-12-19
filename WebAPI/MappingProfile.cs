@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using System;
@@ -27,6 +28,7 @@ namespace WebAPI
             CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
             CreateMap<ProdajaForUpdateDto, Prodaja>().ReverseMap();
             CreateMap<KlientForUpdateDto, Klient>();
+            CreateMap<UserForRegistrationDto, User>();
         }
     }
 }
